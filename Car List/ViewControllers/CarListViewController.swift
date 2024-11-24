@@ -14,10 +14,7 @@ class CarListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        horizontalScroll.configure(with: carManager.getCars())
-        horizontalScroll.action = presentDetailsVC
-        view.addSubview(horizontalScroll)
+        setupView()
         setupLayout()
     }
     
@@ -38,6 +35,16 @@ class CarListViewController: UIViewController {
     }
 }
 
+extension CarListViewController {
+    private func setupView() {
+        view.backgroundColor = .white
+        horizontalScroll.configure(with: carManager.getCars())
+        horizontalScroll.action = presentDetailsVC
+        view.addSubview(horizontalScroll)
+    }
+}
+
+//MARK: - Setup Layout
 extension CarListViewController {
     private func setupLayout() {
         horizontalScroll.translatesAutoresizingMaskIntoConstraints = false

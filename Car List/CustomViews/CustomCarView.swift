@@ -53,7 +53,7 @@ private extension CustomCarView {
     
     private func setupCarNameLabel() {
         carNameLabel.text = car?.carFullName
-        carNameLabel.font = UIFont(name: Fonts.pricedown, size: 20)
+        carNameLabel.font = UIFont(name: Fonts.pricedown, size: 27)
         carNameLabel.textColor = .white
     }
     
@@ -65,14 +65,14 @@ private extension CustomCarView {
     }
     
     private func setupCarPriceLabel() {
-        carPriceLabel.font = UIFont(name: Fonts.pricedown, size: 14)
+        carPriceLabel.font = UIFont(name: Fonts.pricedown, size: 15)
         carPriceLabel.text = "Цена: \(car?.price ?? 0)"
         carPriceLabel.textColor = .white
         
     }
     
     private func setupCarCapacityLabel() {
-        carCapacityLabel.font = UIFont(name: Fonts.pricedown, size: 14)
+        carCapacityLabel.font = UIFont(name: Fonts.pricedown, size: 15)
         carCapacityLabel.textColor = .white
         carCapacityLabel.text = "Вместимость: \(car?.capacity ?? 0)"
     }

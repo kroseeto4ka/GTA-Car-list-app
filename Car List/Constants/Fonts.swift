@@ -6,5 +6,4 @@
 //
 enum Fonts {
     static let pricedown = "PricedownBl-Regular"
-    
 }

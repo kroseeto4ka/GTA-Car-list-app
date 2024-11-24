@@ -10,7 +10,7 @@ import UIKit
 class CarDetailsViewController: UIViewController {
 
     private let descriptionLabel = UILabel()
-    private let CarImage = UIImage()
+    private let carImageView = UIImageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,7 @@ class CarDetailsViewController: UIViewController {
     
     func configure(car: CarModel?) {
         descriptionLabel.text = car?.description
+        carImageView.image = UIImage(named: car?.vendor ?? "")
     }
 }
 
@@ -27,7 +28,9 @@ extension CarDetailsViewController {
     private func setupView() {
         setupGradient()
         setupLabel()
+        setupImage()
         view.addSubview(descriptionLabel)
+        view.addSubview(carImageView)
     }
         private func setupGradient() {
         let gradientLayer = CAGradientLayer()
@@ -49,13 +52,25 @@ extension CarDetailsViewController {
         descriptionLabel.lineBreakMode = .byClipping
     }
     
+    private func setupImage() {
+        carImageView.contentMode = .scaleAspectFit
+        carImageView.layer.cornerRadius = 20
+        carImageView.clipsToBounds = true
+    }
+    
     private func setupLayout() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        carImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            descriptionLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            descriptionLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            descriptionLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
+            carImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            carImageView.heightAnchor.constraint(equalToConstant: 200),
+            carImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            carImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
+            
+            descriptionLabel.topAnchor.constraint(equalTo: carImageView.bottomAnchor, constant: 10),
+            descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10)
         ])
     }
 }
