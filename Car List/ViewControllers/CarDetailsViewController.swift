@@ -24,6 +24,7 @@ class CarDetailsViewController: UIViewController {
     }
 }
 
+//MARK: - Setup View
 extension CarDetailsViewController {
     private func setupView() {
         setupGradient()
@@ -32,13 +33,13 @@ extension CarDetailsViewController {
         view.addSubview(descriptionLabel)
         view.addSubview(carImageView)
     }
-        private func setupGradient() {
+    private func setupGradient() {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = view.bounds
         gradientLayer.colors = [
             UIColor.systemYellow.cgColor,
             UIColor.systemOrange.cgColor
-            ]
+        ]
         gradientLayer.locations = [0.0, 1.0]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
         view.layer.insertSublayer(gradientLayer, at: 0)
@@ -57,7 +58,10 @@ extension CarDetailsViewController {
         carImageView.layer.cornerRadius = 20
         carImageView.clipsToBounds = true
     }
-    
+}
+
+//MARK: Setup Layout
+extension CarDetailsViewController {
     private func setupLayout() {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         carImageView.translatesAutoresizingMaskIntoConstraints = false

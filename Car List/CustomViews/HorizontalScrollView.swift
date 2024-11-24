@@ -36,6 +36,7 @@ class HorizontalScrollView: UIView {
     }
 }
 
+//MARK: - Setup View
 private extension HorizontalScrollView {
     func setupView() {
         scrollView.addSubview(stackView)
@@ -50,6 +51,7 @@ private extension HorizontalScrollView {
     }
 }
 
+//MARK: - Setup Layout
 private extension HorizontalScrollView {
     func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
