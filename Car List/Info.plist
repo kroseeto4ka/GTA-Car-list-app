@@ -4,7 +4,6 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>s12.otf</string>
 		<string>pricedown.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

@@ -24,6 +24,11 @@ class HorizontalScrollView: UIView {
     }
     
     func configure(with cars: [CarModel]) {
+        for view in stackView.arrangedSubviews {
+                stackView.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
+        
         for car in cars {
             let carView = CustomCarView(car: car)
             carView.action = tapView

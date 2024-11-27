@@ -15,4 +15,5 @@ struct CarModel {
     var carFullName: String {
         "\(vendor) \(model)"
     }
+    let type: String
 }

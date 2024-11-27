@@ -8,10 +8,11 @@
 import UIKit
 
 class CarListViewController: UIViewController {
-    
+    private let tableView = UITableView()
+    private let cellIdentifier = "cellIdentifier"
     var carManager: ICarManager!
-    private let horizontalScroll = HorizontalScrollView()
-
+    private var carTypes: [String] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -35,26 +36,73 @@ class CarListViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
+extension CarListViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return carTypes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: cellIdentifier,
+            for: indexPath
+        ) as? CustomCellView else {
+            return UITableViewCell()
+        }
+
+        let carType = carTypes[indexPath.row]
+        var cars: [CarModel] = []
+        for car in carManager.getCars() {
+            if car.type == carType {
+                cars.append(car)
+            }
+        }
+        
+        cell.action = presentDetailsVC
+        cell.selectionStyle = .none
+        cell.configure(carsType: carType, cars: cars)
+        
+        return cell
+    }
+}
+
 //MARK: - Setup View
 extension CarListViewController {
     private func setupView() {
         view.backgroundColor = .white
-        horizontalScroll.configure(with: carManager.getCars())
-        horizontalScroll.action = presentDetailsVC
-        view.addSubview(horizontalScroll)
+        setupTableView()
+        view.addSubview(tableView)
+        setupCarTypes()
+    }
+    
+    private func setupTableView() {
+        tableView.backgroundColor = .white
+        tableView.dataSource = self
+        tableView.separatorStyle = .none
+        tableView.register(CustomCellView.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    private func setupCarTypes() {
+        var carTypesSet = Set<String>()
+        for car in carManager.getCars() {
+            carTypesSet.insert(car.type)
+        }
+        carTypes = Array(carTypesSet)
+        tableView.reloadData()
     }
 }
 
 //MARK: - Setup Layout
 extension CarListViewController {
     private func setupLayout() {
-        horizontalScroll.translatesAutoresizingMaskIntoConstraints = false
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            horizontalScroll.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            horizontalScroll.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            horizontalScroll.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            horizontalScroll.heightAnchor.constraint(equalToConstant: 270) // обязательно определяем высоту стека.
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
