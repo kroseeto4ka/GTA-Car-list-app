@@ -23,4 +23,21 @@ extension CarManager: ICarManager {
     func getCars() -> [CarModel] {
         cars
     }
+    
+    func getCar(by model: String) -> CarModel? {
+        for car in getCars() {
+            if car.model == model {
+                return car
+            }
+        }
+        return nil
+    }
+    
+    func getCarTypes() -> [String] {
+        var carTypesSet = Set<String>()
+        for car in getCars() {
+            carTypesSet.insert(car.type)
+        }
+        return Array(carTypesSet).sorted(by: >)
+    }
 }

@@ -11,7 +11,6 @@ class CarListViewController: UIViewController {
     private let tableView = UITableView()
     private let cellIdentifier = "cellIdentifier"
     var carManager: ICarManager!
-    private var carTypes: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,19 +19,10 @@ class CarListViewController: UIViewController {
     }
     
     private func presentDetailsVC(model: String) {
-        guard let car = getCar(model: model) else { return }
+        guard let car = carManager.getCar(by: model) else { return }
         let detailsVC = CarDetailsViewController()
         detailsVC.configure(car: car)
         present(detailsVC, animated: true)
-    }
-    
-    private func getCar(model: String) -> CarModel? {
-        for car in carManager.getCars() {
-            if car.model == model {
-                return car
-            }
-        }
-        return nil
     }
 }
 
@@ -40,7 +30,7 @@ class CarListViewController: UIViewController {
 extension CarListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return carTypes.count
+        return carManager.getCarTypes().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -51,7 +41,7 @@ extension CarListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
 
-        let carType = carTypes[indexPath.row]
+        let carType = carManager.getCarTypes()[indexPath.row]
         var cars: [CarModel] = []
         for car in carManager.getCars() {
             if car.type == carType {
@@ -73,7 +63,6 @@ extension CarListViewController {
         view.backgroundColor = .white
         setupTableView()
         view.addSubview(tableView)
-        setupCarTypes()
     }
     
     private func setupTableView() {
@@ -81,15 +70,6 @@ extension CarListViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.register(CustomCellView.self, forCellReuseIdentifier: cellIdentifier)
-    }
-    
-    private func setupCarTypes() {
-        var carTypesSet = Set<String>()
-        for car in carManager.getCars() {
-            carTypesSet.insert(car.type)
-        }
-        carTypes = Array(carTypesSet)
-        tableView.reloadData()
     }
 }
 
